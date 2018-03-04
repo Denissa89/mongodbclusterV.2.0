@@ -1,0 +1,14 @@
+---
+- name: disable postfix
+  command: systemctl disable postfix
+
+- name: disable NetworkManager
+  command: systemctl disable NetworkManager
+
+- name: restart server
+  command: shutdown -r +1
+  async: 0
+  poll: 0
+  ignore_errors: true
+
+

@@ -1,0 +1,73 @@
+---
+
+- name: Create docker mongo-volumes volumes mongodata
+  command: docker volume create --name mongodata
+
+- name: Create docker mongo-volumes volumes mongoconfig
+  command: docker volume create --name mongoconfig
+
+- name: Docker-PY
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - six
+    - docker-py==1.7.2
+
+- name: "Create config replica"
+  template:
+    src=init_cluster.sh
+    dest=/var/lib/docker/volumes/mongoconfig/_data
+    mode=0777
+   
+- name: mongo-slave-1 container
+  docker:
+    name: mongo-slave-1
+    image: mongo:latest
+    command: mongod --replSet rs0
+    state: started
+    ports:
+    - 27017:27017
+    volumes:
+    - mongodata:/data/db
+    - mongoconfig:/data/configdb
+  when: ansible_nodename == "mongo-slave-1"
+
+- name: mongo-slave-2 container
+  docker:
+    name: mongo-slave-2
+    image: mongo:latest
+    command: mongod --replSet rs0
+    state: started
+    ports:
+    - 27017:27017
+    volumes:
+    - mongodata:/data/db
+    - mongoconfig:/data/configdb
+  when: ansible_nodename == "mongo-slave-2"
+
+- name: mongo-master container
+  docker:
+    name: mongo-master
+    image: mongo:latest
+    command: "{{ item }}"
+    state: started
+    ports:
+    - 27017:27017
+    volumes:
+    - mongodata:/data/db
+    - mongoconfig:/data/configdb
+  with_items:
+    - mongod --replSet rs0
+  when: ansible_nodename == "mongo-master"
+
+- name: mongo-setup container
+  docker:
+    name: mongo-setup
+    image: mongo:latest
+    state: started
+    ports:
+    - 27018:27017
+    volumes:
+    - mongoconfig:/data/configdb
+    command: ./data/configdb/init_cluster.sh
+  when: ansible_nodename == "mongo-master"

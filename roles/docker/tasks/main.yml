@@ -1,0 +1,25 @@
+---
+- include: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Install Docker.
+  package: name={{ docker_package }} state={{ docker_package_state }}
+
+- name: Ensure Docker is started and enabled at boot.
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: include user support in group Docker 
+  user: 
+    name={{ docker_user }} 
+    groups=docker 
+    append=yes
+  
+
+- include: docker-compose.yml
+  when: docker_install_compose

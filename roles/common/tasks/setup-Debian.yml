@@ -1,0 +1,34 @@
+---
+- name: update cache Debian\Ubuntu
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600  
+
+- name: upgrade system Debian\Ubuntu
+  apt:
+    upgrade: dist
+
+- name: create sudo user 
+  user:
+    name: support
+    password: '{{ sudo_password }}'
+    groups: 'sudo'
+    shell: '/bin/bash'
+
+- name: add  authorized key
+  authorized_key:
+    user: 'support'
+    key: '{{ common_public_key }}'
+    state: present
+
+- name: install software Debian\Ubuntu
+  apt: 
+    name: '{{ item }}'
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+     - sudo
+     - htop
+     - mc
+     - curl
+     - python-pip
