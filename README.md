@@ -19,9 +19,9 @@ apt install ansible git
 
 git clone https://github.com/Denissa89/mongodbclusterV.2.0.git
 
-cp -r mongodbclusterV.2.0/ /etc/ansible
-
 rm -rf /etc/ansible/*
+
+cp -r mongodbclusterV.2.0/ /etc/ansible
 
 ssh-keygen
 
