@@ -49,7 +49,7 @@
   docker:
     name: mongo-master
     image: mongo:latest
-    command: - mongod --replSet rs0
+    command: mongod --replSet rs0
     state: started
     ports:
     - 27017:27017
