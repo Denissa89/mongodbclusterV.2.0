@@ -14,14 +14,11 @@
 в скрипте инициализации для репликации. Скрипт находится в по адресу https://github.com/Denissa89/mongodbclusterV.2.0/blob/master/roles/mongodb/templates/init_cluster.sh
 
 Подготовка и запуск playbook:
-
 apt install ansible git
-rm -rf /etc/ansible/*
-
 git clone https://github.com/Denissa89/mongodbclusterV.2.0.git
 
 cp -r mongodbclusterV.2.0/ /etc/ansible
-
+rm -rf /etc/ansible/*
 ssh-keygen
 
 ssh-copy-id root@your_ip_address
