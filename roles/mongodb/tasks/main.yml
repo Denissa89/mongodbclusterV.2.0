@@ -49,15 +49,13 @@
   docker:
     name: mongo-master
     image: mongo:latest
-    command: "{{ item }}"
+    command: - mongod --replSet rs0
     state: started
     ports:
     - 27017:27017
     volumes:
     - mongodata:/data/db
     - mongoconfig:/data/configdb
-  with_items:
-    - mongod --replSet rs0
   when: ansible_nodename == "mongo-master"
 
 - name: mongo-setup container
