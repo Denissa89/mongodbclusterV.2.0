@@ -15,8 +15,8 @@
 
 - name: "Create config replica"
   template:
-    src=init_cluster.sh
-    dest=/var/lib/docker/volumes/mongoconfig/_data
+    src=init_cluster.j2
+    dest=/var/lib/docker/volumes/mongoconfig/_data/init_cluster.sh
     mode=0777
    
 - name: mongo-slave-1 container
