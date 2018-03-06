@@ -1,8 +1,8 @@
 #!/bin/bash
 
-mongodb1=192.168.0.21
-mongodb2=192.168.0.22
-mongodb3=192.168.0.23
+mongo1={{ hostvars['mongo-master']['ansible_enp0s3']['ipv4']['address'] }}
+mongo2={{ hostvars['mongo-slave-1']['ansible_enp0s3']['ipv4']['address'] }}
+mongo3={{ hostvars['mongo-slave-2']['ansible_enp0s3']['ipv4']['address'] }}
 
 port=${PORT:-27017}
 
