@@ -1,6 +1,6 @@
 
 [mongodb]
-192.168.0.21 ansible_user=root
-192.168.0.22 ansible_user=root
-192.168.0.23 ansible_user=root
+mongo-master ansible_user=root ansible_host=192.168.0.21
+mongo-slave-1 ansible_user=root ansible_host=192.168.0.22
+mongo-slave-2 ansible_user=root ansible_host=192.168.0.23
 
